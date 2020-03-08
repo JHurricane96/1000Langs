@@ -23,7 +23,7 @@ from urllib.parse import urljoin, urlsplit
 from utility.file_utility import FileUtility
 
 import requests
-from lxml import html
+from lxml import html, etree
 
 
 class BibleCrawler(object):
@@ -62,7 +62,14 @@ class BibleCrawler(object):
             self.seen.add(url)
             if self.print:
                 print(url)
-            response = session.get(url)
+            for i in range(3):
+                try:
+                    response = session.get(url)
+                    break
+                except Exception as e:
+                    if self.print:
+                        print("Unable to reach: ", url, " : ", e)
+                    return
             if response.status_code != requests.codes.ok:
                 if self.print:
                     print('Error', url, response.url, response.status_code, file=sys.stderr)
@@ -144,6 +151,17 @@ class BibleCrawler(object):
             # try to save only a part of the response
             tree = html.fromstring(response.content)
             text_divs = tree.xpath('//div[@id="bibleText"]')
+            text_div = text_divs[0] if text_divs else None
+            if text_div is not None:
+                with open(filename, 'wb') as f:
+                    f.write(etree.tostring(text_div))
+            else:
+                with open(filename, 'wb') as f:
+                    f.write(handle.write(response.content))
+        elif self.website == "bible.com":
+            # try to save only a part of the response
+            tree = html.fromstring(response.content)
+            text_divs = tree.xpath('//div[contains(@class,"yv-bible-text")]')
             text_div = text_divs[0] if text_divs else None
             if text_div is not None:
                 with open(filename, 'wb') as f:
