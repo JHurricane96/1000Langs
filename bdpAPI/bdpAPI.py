@@ -73,7 +73,7 @@ class BDPAPl(object):
 
         
         # retrieve all bibles
-        bible_ids = self.ret_bible_books(nump=20,override=override)
+        bible_ids = self.ret_bible_books(nump=nump,override=override)
         bible_ids = list(bible_ids.keys())
         bible_ids.sort()
         
@@ -99,7 +99,7 @@ class BDPAPl(object):
                     report['version'].append(self.id2version[trID])
                     report['verses'].append(length)
             print ('Double check for the missing translations..')
-            bible_ids_new = self.ret_bible_books(nump=20,trList = missing_tr_list)
+            bible_ids_new = self.ret_bible_books(nump=nump,trList = missing_tr_list)
             bible_ids_new = list(bible_ids_new.keys())
             bible_ids_new.sort()
             count+=1;
@@ -182,8 +182,11 @@ class BDPAPl(object):
         bible = dict()
         for book in books:
             for rec in book:
-                bible[self.book_map[rec['book_id']] + rec['chapter_id'].zfill(3) + rec['verse_id'].zfill(3)] = rec[
-                    'verse_text'].strip()
+                try:
+                    key = self.book_map[rec['book_id']] + rec['chapter_id'].zfill(3) + rec['verse_id'].zfill(3)
+                    bible[key] = rec['verse_text'].strip()
+                except KeyError as e:
+                    pass
 
         # save the books
         ordered_bible = collections.OrderedDict(sorted(bible.items()))
