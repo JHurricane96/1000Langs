@@ -56,14 +56,14 @@ class PNGAPl(object):
 
     def find_all_languages_on_png(self):
         url_dict=dict()
-        base_url = 'http://pngscriptures.org/'
+        base_url = 'http://png.bible/'
         soup = BeautifulSoup(requests.get(base_url).content)
         for link in tqdm.tqdm(soup.select('div[class^=button]')):
             for links in link.select('a'):
                 code=links.attrs['href'][0:-1]
                 iso=code[0:3]
                 if not validators.url(code):
-                    url_dict[links.attrs['href'][0:-1]]=(iso,code, 'http://pngscriptures.org/'+links.attrs['href']+links.attrs['href'][0:-1]+'_html.zip',re.sub(" *\\(.*", "", link.text))
+                    url_dict[links.attrs['href'][0:-1]]=(iso,code, 'http://png.bible/'+links.attrs['href']+links.attrs['href'][0:-1]+'_html.zip',re.sub(" *\\(.*", "", link.text))
         self.url_dict=url_dict
 
     def crawl_all_found_langs(self,nump=20, override=False, repeat=3):
