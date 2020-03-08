@@ -43,7 +43,7 @@ conda config --add channels conda-forge
 The next step would be installation of the dependencies:
 
 ```
-conda create --name lang1000 --file env_linux.txt
+conda env create --file env_linux.yml -n lang1000
 ```
 
 Then you need to activate the DiTaxa virtual environment:
