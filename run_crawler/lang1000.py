@@ -77,8 +77,8 @@ if __name__ == '__main__':
         # parameters
         out_path = output_dir
         nump = cores
-        update_metadata = (override == 1)
-        override = (updatemeta == 1)
+        update_metadata = (updatemeta == 1)
+        override = (override == 1)
 
         print('=====================================')
         print('>>>> The PBC files are being generated at '+out_path )
