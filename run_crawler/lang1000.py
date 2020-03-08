@@ -102,20 +102,6 @@ if __name__ == '__main__':
 
 
         print('=====================================')
-        print('>>>> Start retrieveing parallel bibles from biblecloud..')
-        print('=====================================')
-        # BibleCloud call
-        CL = BibleCloudAPl(out_path)
-        CL.crawl_bible_cloud(nump=nump, override=override, repeat=repeat)
-        print('=====================================')
-        print('<<<< ✓ Retrieveing parallel bibles from bible cloud is completed..')
-        print(' Report is generated at '+out_path+'/reports/'+'crawl_report_cloud.tsv')
-        print(' Aggregated report '+out_path+'/reports/'+'final_rep.tsv')
-        print('=====================================')
-        print("")
-        print("")
-
-        print('=====================================')
         print('>>>> Start retrieveing parallel bibles from PNGscripture..')
         print('=====================================')
         # PNG call
